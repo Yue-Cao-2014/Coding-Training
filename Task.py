@@ -46,7 +46,7 @@ class Solution:
 
 if __name__ == "__main__":
     n = 4
-    l = [[1, 0], [2, 0], [3, 1], [3, 2]]
-    print(Solution.organize_order(4, l))
+    #l = [[1, 0], [2, 0], [3, 1], [3, 2]]
+    #print(Solution.organize_order(4, l))
     l = [[1, 0], [2, 0], [2, 1], [3, 2], [1, 3]]
     print(Solution.organize_order(4, l))
