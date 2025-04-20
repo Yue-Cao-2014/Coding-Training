@@ -34,7 +34,6 @@ class Solution:
         """
         Compute number of pools.
         """
-        
         ans = 0
 
         for i in range(self.r):
