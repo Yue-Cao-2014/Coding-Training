@@ -25,16 +25,16 @@ class MyClass:
     def return_my_atrribute(self):
         return self._my_attribute
 
-# Usage
-obj = MyClass()
-print(obj.return_my_atrribute())
-print(obj.my_attribute)
-obj.my_attribute = 20
-print(obj.my_attribute)
-del obj.my_attribute
-print(obj.__dict__)
-del obj._my_attribute
-print(obj.__dict__)
+# # Usage
+# obj = MyClass()
+# print(obj.return_my_atrribute())
+# print(obj.my_attribute)
+# obj.my_attribute = 20
+# print(obj.my_attribute)
+# del obj.my_attribute
+# print(obj.__dict__)
+# del obj._my_attribute
+# print(obj.__dict__)
 
 class MyClass(object):
     def __init__(self, value):
@@ -54,16 +54,16 @@ class MyClass(object):
     def __eq__(self, other):
       return self.value == other.value
 
-obj1 = MyClass(10)
-print(id(obj1))
-obj2 = MyClass(20)
-print(id(obj2))
-print(obj1)
-print(repr(obj2))
-print(obj1 == obj2)
-print(hash(obj1) == hash(obj2))
-obj1.a = 10
-print(obj1.__dict__)
+# obj1 = MyClass(10)
+# print(id(obj1))
+# obj2 = MyClass(20)
+# print(id(obj2))
+# print(obj1)
+# print(repr(obj2))
+# print(obj1 == obj2)
+# print(hash(obj1) == hash(obj2))
+# obj1.a = 10
+# print(obj1.__dict__)
 
 class D(object):
     def __init__(self):
@@ -79,6 +79,27 @@ class C(D):
 class A(C, B):
     pass
 
-inst = A()
-print(inst.a)
-print(A.__mro__)
+# inst = A()
+# print(inst.a)
+# print(A.__mro__)
+
+class Singleton(object):
+    b = 2
+    def __new__(cls, *args, **kw):
+
+        if not hasattr(cls, '_instance'):
+            # orig = super(Singleton, cls)
+            cls._instance = super().__new__(cls, *args, **kw)
+
+        return cls._instance
+
+class MyClass(Singleton):
+    a = 1
+
+c = MyClass()
+print(c.a, c.b)
+d = MyClass()
+d.b = 3
+print(c.a, c.b)
+e = MyClass()
+print(c.a, c.b)
