@@ -14,11 +14,11 @@ class normal_row:
         return "Normal class type"
 
 
-tuple_row = namedtuple('Ride_info', ['route', 'date', 'daytype', 'rides'])
+tuple_row = namedtuple('Ride_info', ('route', 'date', 'daytype', 'rides'))
 
 
 class slot_row:
-    __slot__ = ['route', 'date', 'daytype', 'rides']
+    __slots__ = ['route', 'date', 'daytype', 'rides']
     def __init__(self, route: str, date: str, daytype: str, rides: str):
         self.route = route
         self.date = date
@@ -66,6 +66,7 @@ def test_memory_function(d_type):
     tracemalloc.start()
     rows = read_rides('Data/ctabus.csv', d_type)
     print('Memory Use: Current %d, Peak %d' % tracemalloc.get_traced_memory())
+    tracemalloc.stop()
 
 
 if __name__ == '__main__':
