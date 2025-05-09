@@ -96,10 +96,94 @@ class Singleton(object):
 class MyClass(Singleton):
     a = 1
 
-c = MyClass()
-print(c.a, c.b)
-d = MyClass()
-d.b = 3
-print(c.a, c.b)
-e = MyClass()
-print(c.a, c.b)
+# c = MyClass()
+# print(c.a, c.b)
+# d = MyClass()
+# d.b = 3
+# print(c.a, c.b)
+# e = MyClass()
+# print(c.a, c.b)
+
+class A(object): 
+    def go(self): 
+        print("go A go!") 
+    def stop(self): 
+        print("stop A stop!") 
+    def pause(self): 
+        print("Not Implemented")
+
+class B(A): 
+    def go(self): 
+        super(B, self).go() 
+        print("go B go!")
+
+class C(A): 
+    def go(self): 
+        super(C, self).go() 
+        print("go C go!") 
+        
+    def stop(self): 
+        super(C, self).stop() 
+        print("stop C stop!")
+
+class D(B,C): 
+    def go(self): 
+        super(D, self).go() 
+        print("go D go!") 
+    
+    def stop(self): 
+        super(D, self).stop() 
+        print("stop D stop!") 
+        
+    def pause(self): 
+        print("wait D wait!")
+
+class E(B,C): pass
+
+# a = A() 
+# b = B() 
+# c = C() 
+# d = D() 
+# e = E()
+
+# print("a go")
+# a.go() 
+# print("b go")
+# b.go() 
+# print("c go")
+# c.go() 
+# print("d go")
+# d.go() 
+# print("e go")
+# e.go()
+# print("a stop")
+# a.stop() 
+# print("b stop")
+# b.stop()
+# print("c stop") 
+# c.stop()
+# print("d stop") 
+# d.stop()
+# print("e stop") 
+# e.stop()
+# print("a pause")
+# a.pause() 
+# print("b pause")
+# b.pause()
+# print("c pause") 
+# c.pause()
+# print("d pause") 
+# d.pause()
+# print("e pause") 
+# e.pause()
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __repr__(self):
+        return f"Person(name='{self.name}', age={self.age})"
+
+person = Person("Alice", 30)
+print(repr(person))
