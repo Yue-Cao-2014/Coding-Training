@@ -61,12 +61,31 @@ def read_rides(filename: str, data_type) -> list:
     return records
 
 
-def test_memory_function(d_type):
+def test_memory_function(d_type, read_fun = read_rides):
     print(d_type)
     tracemalloc.start()
-    rows = read_rides('Data/ctabus.csv', d_type)
+    rows = read_fun('Python_Mastery/Data/ctabus.csv', d_type)
     print('Memory Use: Current %d, Peak %d' % tracemalloc.get_traced_memory())
     tracemalloc.stop()
+
+
+def read_rides_as_columns(filename: str, d_type):
+    '''
+    Read the bus ride data into 4 lists, representing columns
+    '''
+    routes = []
+    dates = []
+    daytypes = []
+    numrides = []
+    with open(filename) as f:
+        rows = csv.reader(f)
+        headings = next(rows)     # Skip headers
+        for row in rows:
+            routes.append(row[0])
+            dates.append(row[1])
+            daytypes.append(row[2])
+            numrides.append(int(row[3]))
+    return dict(routes=routes, dates=dates, daytypes=daytypes, numrides=numrides)
 
 
 if __name__ == '__main__':
@@ -80,4 +99,7 @@ if __name__ == '__main__':
     test_memory_function(d_type)
     d_type = slot_row("", "", "", "")
     test_memory_function(d_type)
+    d_type = dict
+    test_memory_function(d_type, read_rides_as_columns)
+    
     
