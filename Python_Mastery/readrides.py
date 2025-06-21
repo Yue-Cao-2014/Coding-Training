@@ -1,7 +1,7 @@
 import csv
 from collections import namedtuple
 import tracemalloc
-
+import collections
 
 class normal_row:
     def __init__(self, route: str, date: str, daytype: str, rides: str):
@@ -88,18 +88,82 @@ def read_rides_as_columns(filename: str, d_type):
     return dict(routes=routes, dates=dates, daytypes=daytypes, numrides=numrides)
 
 
+class RideData(collections.abc.Sequence):
+    __slots__ = ["routes", "dates", "daytypes", "numrides"]
+    def __init__(self):
+        self.routes = []
+        self.dates = []
+        self.daytypes = []
+        self.numrides = []
+
+    def __getitem__(self, index) -> dict:
+        if isinstance(index, int):
+            return {"route": self.routes[index], "date": self.dates[index],
+                    "daytype": self.daytypes[index], "rides": self.numrides[index]}
+        else:
+            res = RideData()
+            res.routes = self.routes[index]
+            res.dates = self.dates[index]
+            res.daytypes = self.daytypes[index]
+            res.numrides = self.numrides[index]
+            # res = []
+            # for r, d, dt, r in zip(self.routes[index], self.dates[index],
+            #                        self.daytypes[index], self.numrides[index]):
+            #     tmp = {}
+            #     tmp["route"] = r
+            #     tmp["date"] = d
+            #     tmp["daytype"] = dt
+            #     tmp["ride"] = r
+            #     res.append(tmp)
+            return res
+    
+    def __len__(self) -> int:
+        return len(self.routes)
+    
+    def append(self, d: dict):
+        self.routes.append(d["route"])
+        self.dates.append(d["date"])
+        self.daytypes.append(d["daytype"])
+        self.numrides.append(d["rides"])
+
+
+def read_rides_as_ridedata(file_name: str, d_type) -> RideData:
+    records = RideData()
+    with open(file_name) as f:
+        rows = csv.reader(f)
+        headings = next(rows)
+        for row in rows:
+            route = row[0]
+            date = row[1]
+            daytype = row[2]
+            ride = row[3]
+            record = {"route": route, "date": date, "daytype": daytype,
+                      "ride": ride}
+            records.append(record)
+    return records
+
+
 if __name__ == '__main__':
-    d_type = tuple   
-    test_memory_function(d_type)
-    d_type = dict
-    test_memory_function(d_type)
-    d_type = normal_row("", "", "", "")
-    test_memory_function(d_type)
-    d_type = tuple_row("", "", "", "")
-    test_memory_function(d_type)
-    d_type = slot_row("", "", "", "")
-    test_memory_function(d_type)
-    d_type = dict
-    test_memory_function(d_type, read_rides_as_columns)
+    pass
+    # # Exercise 2.2
+    # d_type = tuple   
+    # test_memory_function(d_type)
+    # d_type = dict
+    # test_memory_function(d_type)
+    # d_type = normal_row("", "", "", "")
+    # test_memory_function(d_type)
+    # d_type = tuple_row("", "", "", "")
+    # test_memory_function(d_type)
+    # d_type = slot_row("", "", "", "")
+    # test_memory_function(d_type)
+    # d_type = dict
+    # test_memory_function(d_type, read_rides_as_columns)
     
-    
+    # # Exercise 2.5
+    # d_type = RideData()
+    # test_memory_function(d_type, read_rides_as_ridedata)
+    rows = read_rides_as_ridedata("Python_Mastery/Data/ctabus.csv", RideData())
+    print(rows)
+    r = rows[0:10]
+    print(r)
+    print(r[1])
