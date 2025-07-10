@@ -46,8 +46,15 @@ def read_csv_as_columns(file_name: str,  data_type: list[type]) -> RideData:
     return res
 
 
-def read_csv_as_instance(file_name: str, obj_type):
-    res = 
+def read_csv_as_instance(file_name: str, obj_type: type):
+    res = []
+    with open(file_name, 'r') as f:
+        rows = csv.reader(f)
+        headers = next(rows)
+        for row in rows:
+            res.append(obj_type.from_row(row))
+    
+    return res
 
 
 if __name__ == "__main__":

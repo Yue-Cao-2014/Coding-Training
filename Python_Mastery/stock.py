@@ -2,16 +2,44 @@ import csv
 from decimal import Decimal
 
 class Stock:
-    __slots__ = ('name', "shares", "price", "s_cost")
+    __slots__ = ('name', "_shares", "_price", "s_cost")
     types = [str, int, float]
     def __init__(self, name: str, shares: int, price: float):
         self.name = name
         self.shares = shares
         self.price = price
-        self.s_cost = self.cost()
+        self.s_cost = self.cost
     
     def cost(self) -> float:
         return self.shares * self.price
+    
+    @property
+    def cost(self) -> float:
+        return self.shares * self.price
+    
+    @property
+    def shares(self) -> int:
+        return self._shares
+    
+    @shares.setter
+    def shares(self, value):
+        if not isinstance(value, int):
+            raise ValueError(f"{value} with type{type(value)} for shares is not integer!")
+        elif value < 0:
+            raise ValueError(f"{value} for shares is negative!")
+        self._shares = value
+
+    @property
+    def price(self) -> float:
+        return self._price
+    
+    @price.setter
+    def price(self, value):
+        if not isinstance(value, float):
+            raise ValueError(f"{value} with type{type(value)} for price is not float!")
+        elif value < 0:
+            raise ValueError(f"{value} for price is negative!")
+        self._price = value  
     
     def __repr__(self) -> str:
         return f"Stock name: {self.name}, price: {self.price}, share: {self.shares}, cost: {self.s_cost}"
@@ -29,7 +57,7 @@ class Stock:
 
 
 class DStock(Stock):
-    types = [str, int, Decimal]
+    _types = [str, int, Decimal]
     
 
 def read_portfolio_csv(file: str, obj_type: type) -> list[Stock]:

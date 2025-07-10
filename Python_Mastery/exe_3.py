@@ -1,4 +1,5 @@
 from stock import Stock, DStock, read_portfolio_csv
+from reader import read_csv_as_instance
 from tableformat import print_table
 
 
@@ -27,10 +28,23 @@ if __name__ == "__main__":
     row = ["Google", 100, 666]
     stock = Stock.from_row(row)
     print(stock)
-    print(stock.cost())
+    print(stock.cost)
     stock = DStock.from_row(row)
     print(stock)
-    print(stock.cost())
-    portfolio = read_portfolio_csv("Python_Mastery/Data/portfolio.csv", Stock)
+    print(stock.cost)
+
+    portfolio = read_csv_as_instance("Python_Mastery/Data/portfolio.csv", Stock)
     for s in portfolio:
         print(s)
+
+    # 3.4
+    s = Stock('GOOG', 100, 490.10)
+    s.shares = 50          # OK
+    print(s)
+    # s.shares = '50'
+    # s.shares = -10
+    s.price = 123.45 
+    print(s)
+    # s.price = '123.45'
+    # s.price = -10.0
+    # s.spam = "xo"
