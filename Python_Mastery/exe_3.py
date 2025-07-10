@@ -1,6 +1,7 @@
 from stock import Stock, DStock, read_portfolio_csv
 from reader import read_csv_as_instance
 from tableformat import print_table
+from decimal import Decimal
 
 
 if __name__ == "__main__":
@@ -37,14 +38,19 @@ if __name__ == "__main__":
     for s in portfolio:
         print(s)
 
-    # 3.4
-    s = Stock('GOOG', 100, 490.10)
-    s.shares = 50          # OK
-    print(s)
-    # s.shares = '50'
-    # s.shares = -10
-    s.price = 123.45 
-    print(s)
-    # s.price = '123.45'
-    # s.price = -10.0
-    # s.spam = "xo"
+    # # 3.4
+    # s = Stock('GOOG', 100, 490.10)
+    # s.shares = 50          # OK
+    # print(s)
+    # # s.shares = '50'
+    # # s.shares = -10
+    # s.price = 123.45 
+    # print(s)
+    # # s.price = '123.45'
+    # # s.price = -10.0
+    # # s.spam = "xo"
+
+    # s = DStock('AA', 50, Decimal('91.1'))
+    # print(s)
+    # s.shares = 100
+    # s.price = 92.3

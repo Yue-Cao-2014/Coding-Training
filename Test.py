@@ -1,7 +1,3 @@
-class test:
+from decimal import Decimal
 
-    @classmethod
-    def yow(cls):
-        print("test.yow", cls)
-
-print(test.yow())
+print(Decimal('91.1'))

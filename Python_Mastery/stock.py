@@ -3,7 +3,7 @@ from decimal import Decimal
 
 class Stock:
     __slots__ = ('name', "_shares", "_price", "s_cost")
-    types = [str, int, float]
+    _types = (str, int, float)
     def __init__(self, name: str, shares: int, price: float):
         self.name = name
         self.shares = shares
@@ -16,27 +16,27 @@ class Stock:
     @property
     def cost(self) -> float:
         return self.shares * self.price
-    
+
     @property
-    def shares(self) -> int:
+    def shares(self):
         return self._shares
-    
+        
     @shares.setter
     def shares(self, value):
-        if not isinstance(value, int):
-            raise ValueError(f"{value} with type{type(value)} for shares is not integer!")
+        if not isinstance(value, self._types[1]):
+            raise ValueError(f"{value} type {type(value).__name__} for shares is not {self._types[1].__name__}!")
         elif value < 0:
             raise ValueError(f"{value} for shares is negative!")
         self._shares = value
 
     @property
-    def price(self) -> float:
+    def price(self):
         return self._price
     
     @price.setter
     def price(self, value):
-        if not isinstance(value, float):
-            raise ValueError(f"{value} with type{type(value)} for price is not float!")
+        if not isinstance(value,self._types[2]):
+            raise ValueError(f"{value} type {type(value).__name__} for price is not {self._types[2].__name__}!")
         elif value < 0:
             raise ValueError(f"{value} for price is negative!")
         self._price = value  
@@ -52,13 +52,13 @@ class Stock:
 
     @classmethod
     def from_row(cls, row) -> type:
-        values = [t(v) for t, v in zip(cls.types, row)]
+        values = [t(v) for t, v in zip(cls._types, row)]
         return cls(*values)
 
 
 class DStock(Stock):
-    _types = [str, int, Decimal]
-    
+    _types = (str, int, Decimal)
+
 
 def read_portfolio_csv(file: str, obj_type: type) -> list[Stock]:
     res = []
