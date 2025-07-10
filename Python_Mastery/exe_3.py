@@ -54,3 +54,4 @@ if __name__ == "__main__":
     # print(s)
     # s.shares = 100
     # s.price = 92.3
+    # s.price = '23.3'
